@@ -71,7 +71,7 @@
         app:layout_constraintEnd_toStartOf="@id/textViewDateCompleted"
         tools:text="20.11.25" />
 
-    <!-- Дата завершения (для выполненных заявок) -->
+    <!-- Дата завершения -->
     <TextView
         android:id="@+id/textViewDateCompleted"
         android:layout_width="140dp"
@@ -86,11 +86,12 @@
         tools:text="21.11.25"
         tools:visibility="visible" />
 
-    <!-- Статус -->
-    <!-- Атрибуты singleLine, ellipsize и maxLines добавлены корректно на одной строке -->
+    <!-- Статус — ОБНОВЛЕНО -->
     <TextView
         android:id="@+id/textViewStatus"
-        android:layout_width="80dp"
+        android:layout_width="wrap_content"
+        android:minWidth="80dp"
+        android:maxWidth="140dp"
         android:layout_height="wrap_content"
         android:textColor="@android:color/white"
         android:textSize="12sp"
@@ -105,6 +106,6 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toEndOf="@id/textViewDateCompleted"
         app:layout_constraintEnd_toEndOf="parent"
-        tools:text="В работе" />
+        tools:text="Полностью выполнено" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

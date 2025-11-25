@@ -3,6 +3,10 @@
     <!-- Название приложения -->
     <string name="app_name">Fix It. No Panic</string>
 
+    <!-- Статусы заявок -->
+    <string name="status_in_progress">В работе</string>
+    <string name="status_completed">выполнено</string>
+
     <!-- Действия с заявкой -->
     <string name="edit_request">Редактировать заявку</string>
     <string name="change_status">Изменить статус</string>

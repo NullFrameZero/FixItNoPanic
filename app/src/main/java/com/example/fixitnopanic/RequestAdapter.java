@@ -75,8 +75,12 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.RequestV
             holder.textViewDateCompleted.setVisibility(View.GONE);
         }
 
-        String statusText = "in_progress".equals(currentItem.getStatus()) ? "в работе" : "выполнено";
+        // Используем строки из ресурсов
+        String statusText = "in_progress".equals(currentItem.getStatus())
+                ? context.getString(R.string.status_in_progress)
+                : context.getString(R.string.status_completed);
         holder.textViewStatus.setText(statusText);
+
         int bgRes = "in_progress".equals(currentItem.getStatus())
                 ? R.drawable.status_badge_background
                 : R.drawable.status_completed_badge_background;
