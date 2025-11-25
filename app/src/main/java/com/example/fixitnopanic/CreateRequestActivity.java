@@ -91,6 +91,17 @@ public class CreateRequestActivity extends AppCompatActivity {
         countryCodeSpinner = findViewById(R.id.countryCodeSpinner);
         countryFlagImageView = findViewById(R.id.countryFlagImageView);
 
+        LinearLayout phoneInputContainer = findViewById(R.id.phoneInputContainer);
+
+        // 🔦 Подсветка границ при фокусе — РУЧНОЕ УПРАВЛЕНИЕ ФОНОМ
+        editTextPhone.setOnFocusChangeListener((v, hasFocus) -> {
+            if (hasFocus) {
+                phoneInputContainer.setBackgroundResource(R.drawable.edittext_phone_background_focused);
+            } else {
+                phoneInputContainer.setBackgroundResource(R.drawable.edittext_phone_background);
+            }
+        });
+
         LinearLayout countrySelectorContainer = findViewById(R.id.countrySelectorContainer);
         countrySelectorContainer.setOnClickListener(v -> countryCodeSpinner.performClick());
 
