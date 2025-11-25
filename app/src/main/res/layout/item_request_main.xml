@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:paddingVertical="8dp"
+    android:paddingHorizontal="4dp">
+
+    <!-- ID -->
+    <TextView
+        android:id="@+id/textViewId"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/white"
+        android:textSize="14sp"
+        android:gravity="center"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:text="1" />
+
+    <!-- Клиент -->
+    <TextView
+        android:id="@+id/textViewClient"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/white"
+        android:textSize="14sp"
+        android:gravity="center"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toEndOf="@id/textViewId"
+        app:layout_constraintEnd_toStartOf="@id/textViewModel"
+        tools:text="Иван" />
+
+    <!-- Модель -->
+    <TextView
+        android:id="@+id/textViewModel"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/white"
+        android:textSize="14sp"
+        android:gravity="center"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toEndOf="@id/textViewClient"
+        app:layout_constraintEnd_toStartOf="@id/textViewProblem"
+        tools:text="Lenovo" />
+
+    <!-- Проблема -->
+    <TextView
+        android:id="@+id/textViewProblem"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/white"
+        android:textSize="14sp"
+        android:gravity="center"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toEndOf="@id/textViewModel"
+        app:layout_constraintEnd_toStartOf="@id/textViewDateCreated"
+        tools:text="Не включается" />
+
+    <!-- Дата создания -->
+    <TextView
+        android:id="@+id/textViewDateCreated"
+        android:layout_width="140dp"
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/white"
+        android:textSize="14sp"
+        android:gravity="center"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toEndOf="@id/textViewProblem"
+        app:layout_constraintEnd_toStartOf="@id/textViewDateCompleted"
+        tools:text="20.11.25" />
+
+    <!-- Дата завершения (для выполненных заявок) -->
+    <TextView
+        android:id="@+id/textViewDateCompleted"
+        android:layout_width="140dp"
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/white"
+        android:textSize="14sp"
+        android:gravity="center"
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toEndOf="@id/textViewDateCreated"
+        app:layout_constraintEnd_toStartOf="@id/textViewStatus"
+        tools:text="21.11.25"
+        tools:visibility="visible" />
+
+    <!-- Статус -->
+    <TextView
+        android:id="@+id/textViewStatus"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/white"
+        android:textSize="12sp"
+        android:gravity="center"
+        android:paddingHorizontal="8dp"
+        android:paddingVertical="4dp"
+        android:background="@drawable/status_badge_background"
+        android:textStyle="bold"
+        android:singleLine="true"
+        android:ellipsize="end"
+        android:maxLines="1"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toEndOf="@id/textViewDateCompleted"
+        app:layout_constraintEnd_toStartOf="@id/editButton"
+        tools:text="В работе" />
+
+    <!-- Кнопка редактирования (карандаш) -->
+    <ImageView
+        android:id="@+id/editButton"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:src="@drawable/ic_edit"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="Редактировать заявку"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toEndOf="@id/textViewStatus"
+        app:layout_constraintEnd_toStartOf="@id/statusButton" />
+
+    <!-- Кнопка изменения статуса (галочка) -->
+    <ImageView
+        android:id="@+id/statusButton"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:src="@drawable/ic_check"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="Изменить статус"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toEndOf="@id/editButton"
+        app:layout_constraintEnd_toStartOf="@id/deleteButton" />
+
+    <!-- Кнопка удаления (корзина) -->
+    <ImageView
+        android:id="@+id/deleteButton"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:src="@drawable/ic_delete"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="Удалить заявку"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toEndOf="@id/statusButton"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- Разделительная линия под строкой -->
+    <View
+        android:id="@+id/dividerLine"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#444444"
+        app:layout_constraintTop_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <!-- ID -->
+    <TextView
+        android:id="@+id/headerId"
+        android:layout_width="50dp"
+        android:layout_height="48dp"
+        android:text="ID"
+        android:textColor="#CCCCCC"
+        android:textSize="14sp"
+        android:paddingHorizontal="8dp"
+        android:paddingVertical="4dp"
+        android:gravity=""
+        android:textStyle="bold"
+        android:singleLine="true"
+        android:ellipsize="end"
+        android:maxLines="1"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <!-- Клиент -->
+    <TextView
+        android:id="@+id/headerClient"
+        android:layout_width="150dp"
+        android:layout_height="48dp"
+        android:text="Клиент"
+        android:textColor="#CCCCCC"
+        android:paddingHorizontal="8dp"
+        android:paddingVertical="4dp"
+        android:textSize="14sp"
+        android:gravity=""
+        android:textStyle="bold"
+        android:singleLine="true"
+        android:ellipsize="end"
+        android:maxLines="1"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toEndOf="@id/headerId" />
+
+    <!-- Модель -->
+    <TextView
+        android:id="@+id/headerModel"
+        android:layout_width="150dp"
+        android:layout_height="48dp"
+        android:text="Модель"
+        android:textColor="#CCCCCC"
+        android:textSize="14sp"
+        android:paddingHorizontal="8dp"
+        android:paddingVertical="4dp"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:singleLine="true"
+        android:ellipsize="end"
+        android:maxLines="1"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toEndOf="@id/headerClient" />
+
+    <!-- Проблема (placeholder для выравнивания) -->
+    <TextView
+        android:id="@+id/headerProblem"
+        android:layout_width="150dp"
+        android:layout_height="48dp"
+        android:text="Проблема"
+        android:textColor="#CCCCCC"
+        android:textSize="14sp"
+        android:paddingHorizontal="8dp"
+        android:paddingVertical="4dp"
+        android:gravity="end"
+        android:textStyle="bold"
+        android:singleLine="true"
+        android:ellipsize="end"
+        android:maxLines="1"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toEndOf="@id/headerModel" />
+
+    <!-- Дата создания -->
+    <TextView
+        android:id="@+id/headerDateCreated"
+        android:layout_width="140dp"
+        android:layout_height="48dp"
+        android:text="Дата создания"
+        android:textColor="#CCCCCC"
+        android:textSize="14sp"
+        android:paddingHorizontal="8dp"
+        android:paddingVertical="4dp"
+        android:gravity="end"
+        android:textStyle="bold"
+        android:singleLine="true"
+        android:ellipsize="end"
+        android:maxLines="1"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toEndOf="@id/headerProblem" />
+
+    <!-- Дата завершения -->
+    <TextView
+        android:id="@+id/headerDateCompleted"
+        android:layout_width="140dp"
+        android:layout_height="48dp"
+        android:text="Дата завершения"
+        android:textColor="#CCCCCC"
+        android:textSize="14sp"
+        android:paddingHorizontal="8dp"
+        android:paddingVertical="4dp"
+        android:gravity="end"
+        android:textStyle="bold"
+        android:singleLine="true"
+        android:ellipsize="end"
+        android:maxLines="1"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toEndOf="@id/headerDateCreated" />
+
+    <!-- Статус -->
+    <TextView
+        android:id="@+id/headerStatus"
+        android:layout_width="80dp"
+        android:layout_height="48dp"
+        android:text="Статус"
+        android:textColor="#CCCCCC"
+        android:textSize="14sp"
+        android:paddingHorizontal="8dp"
+        android:paddingVertical="4dp"
+        android:gravity="end"
+        android:textStyle="bold"
+        android:singleLine="true"
+        android:ellipsize="end"
+        android:maxLines="1"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toEndOf="@id/headerDateCompleted" />
+
+    <!-- Разделительная линия -->
+    <View
+        android:id="@+id/headerDivider"
+        android:layout_width="0dp"
+        android:layout_height="3dp"
+        android:background="#444444"
+        app:layout_constraintTop_toBottomOf="@id/headerId"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/headerStatus" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

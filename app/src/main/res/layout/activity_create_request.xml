@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#17181A"
+    tools:context=".CreateRequestActivity">
+
+    <!-- Кнопка "Назад" -->
+    <ImageButton
+        android:id="@+id/buttonBack"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="16dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="@string/back_button"
+        android:padding="8dp"
+        android:src="@drawable/ic_back"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.092" />
+
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="125dp"
+        android:layout_marginBottom="32dp"
+        android:fillViewport="true"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <!-- Окошко внутри ScrollView -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginEnd="32dp"
+            android:orientation="vertical"
+            android:padding="24dp"
+            android:background="@drawable/dialog_background">
+
+            <!-- Заголовок -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/new_repair_request"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                android:textColor="@android:color/white"
+                android:layout_marginBottom="24dp" />
+
+            <!-- Имя клиента -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/label_client_name"
+                android:textColor="#CCCCCC"
+                android:textSize="16sp"
+                android:layout_marginTop="16dp" />
+
+            <EditText
+                android:id="@+id/editTextClientName"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:background="@drawable/edittext_background"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:textColor="@android:color/white"
+                android:textColorHint="#888888"
+                android:hint="@string/client_name_hint"
+                android:layout_marginTop="8dp" />
+
+            <!-- Номер телефона -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/label_phone"
+                android:textColor="#CCCCCC"
+                android:textSize="16sp"
+                android:layout_marginTop="24dp" />
+
+            <LinearLayout
+                android:id="@+id/phoneInputContainer"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:orientation="horizontal"
+                android:background="@drawable/edittext_background"
+                android:layout_marginTop="8dp"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp">
+
+                <!-- Контейнер для иконки + стрелки -->
+                <LinearLayout
+                    android:id="@+id/countrySelectorContainer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:paddingEnd="8dp">
+
+                    <!-- Скрытый Spinner -->
+                    <Spinner
+                        android:id="@+id/countryCodeSpinner"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:spinnerMode="dropdown"
+                        android:background="@null"
+                        android:popupBackground="#FFFFFF"
+                        android:dropDownSelector="@android:color/darker_gray"
+                        android:prompt="@string/country_code_prompt"
+                        android:contentDescription="@string/country_code_prompt" />
+
+                    <!-- Иконка -->
+                    <ImageView
+                        android:id="@+id/countryFlagImageView"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@drawable/question_mark_icon" />
+
+                    <!-- Стрелка -->
+                    <ImageView
+                        android:layout_width="12dp"
+                        android:layout_height="12dp"
+                        android:layout_marginStart="4dp"
+                        android:src="@drawable/ic_arrow_drop_down"
+                        android:contentDescription="@string/country_code_prompt" />
+
+                </LinearLayout>
+
+                <!-- Поле ввода телефона -->
+                <EditText
+                    android:id="@+id/editTextPhone"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:hint="@string/phone_hint"
+                    android:textColor="@android:color/white"
+                    android:textColorHint="#888888"
+                    android:inputType="text"
+                    android:digits="0123456789+ ()-"
+                    android:background="@null"
+                    android:layout_gravity="center_vertical"
+                    android:paddingStart="8dp"
+                    android:paddingEnd="8dp"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    tools:ignore="TextFields" />
+
+            </LinearLayout>
+
+            <!-- Модель компьютера -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/label_model"
+                android:textColor="#CCCCCC"
+                android:textSize="16sp"
+                android:layout_marginTop="24dp" />
+
+            <EditText
+                android:id="@+id/editTextModel"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:background="@drawable/edittext_background"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:textColor="@android:color/white"
+                android:textColorHint="#888888"
+                android:hint="@string/model_hint"
+                android:layout_marginTop="8dp" />
+
+            <!-- Описание проблемы -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/label_problem"
+                android:textColor="#CCCCCC"
+                android:textSize="16sp"
+                android:layout_marginTop="24dp" />
+
+            <EditText
+                android:id="@+id/editTextProblem"
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                android:background="@drawable/edittext_background_multiline"
+                android:padding="16dp"
+                android:textColor="@android:color/white"
+                android:textColorHint="#888888"
+                android:hint="@string/problem_hint"
+                android:inputType="textMultiLine"
+                android:gravity="top|start"
+                android:layout_marginTop="8dp" />
+
+            <!-- Дата приема -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/label_date"
+                android:textColor="#CCCCCC"
+                android:textSize="16sp"
+                android:layout_marginTop="24dp" />
+
+            <EditText
+                android:id="@+id/editTextDate"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:background="@drawable/edittext_background"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:textColor="@android:color/white"
+                android:textColorHint="#888888"
+                android:hint="@string/date_hint"
+                android:focusable="false"
+                android:cursorVisible="false"
+                android:layout_marginTop="8dp" />
+
+            <!-- Время приема -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/label_time"
+                android:textColor="#CCCCCC"
+                android:textSize="16sp"
+                android:layout_marginTop="24dp" />
+
+            <EditText
+                android:id="@+id/editTextTime"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:background="@drawable/edittext_background"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:textColor="@android:color/white"
+                android:textColorHint="#888888"
+                android:hint="@string/time_hint"
+                android:focusable="false"
+                android:cursorVisible="false"
+                android:layout_marginTop="8dp" />
+
+            <!-- Кнопка "Создать заявку" -->
+            <Button
+                android:id="@+id/buttonCreateRequest"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginTop="32dp"
+                android:backgroundTint="#4CAF50"
+                android:text="@string/create_request_button"
+                android:textColor="@android:color/white"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_gravity="center"
+                app:cornerRadius="12dp" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

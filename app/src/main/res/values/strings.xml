@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Название приложения -->
+    <string name="app_name">Fix It. No Panic</string>
+
+    <!-- Действия с заявкой -->
+    <string name="edit_request">Редактировать заявку</string>
+    <string name="change_status">Изменить статус</string>
+    <string name="delete_request">Удалить заявку</string>
+    <string name="save_changes">Сохранить изменения</string>
+
+    <!-- Подсказки и заголовки полей -->
+    <string name="country_code_prompt">Выберите код страны</string>
+    <string name="country_select">Выберите страну</string>
+    <string name="phone_hint">Номер телефона</string>
+    <string name="client_name_hint">Введите имя</string>
+    <string name="model_hint">Например: Dell Inspiron 15</string>
+    <string name="problem_hint">Опишите проблему с компьютером…</string>
+    <string name="date_hint">Выберите дату</string>
+    <string name="time_hint">Выберите время</string>
+
+    <!-- Ошибки валидации -->
+    <string name="error_client_name">Введите имя клиента</string>
+    <string name="error_phone">Введите номер телефона</string>
+    <string name="error_model">Введите модель компьютера</string>
+    <string name="error_problem">Опишите проблему</string>
+    <string name="error_date">Выберите дату приема</string>
+    <string name="error_time">Выберите время приема</string>
+    <string name="error_phone_invalid">Номер телефона слишком короткий</string>
+
+    <!-- Уведомления (Toast) -->
+    <string name="request_created">Заявка создана</string>
+    <string name="request_creation_error">Ошибка при создании заявки</string>
+    <string name="request_updated">Заявка обновлена</string>
+    <string name="request_update_error">Ошибка обновления заявки</string>
+    <string name="request_not_found">Заявка не найдена</string>
+    <string name="edit_load_error">Ошибка загрузки данных для редактирования</string>
+
+    <!-- Дополнительные строки для XML-разметки -->
+    <string name="back_button">Назад</string>
+    <string name="new_repair_request">Новая заявка на ремонт</string>
+    <string name="create_request_button">Создать заявку</string>
+    <string name="label_client_name">Имя клиента</string>
+    <string name="label_phone">Номер телефона</string>
+    <string name="label_model">Модель компьютера</string>
+    <string name="label_problem">Описание проблемы</string>
+    <string name="label_date">Дата приема</string>
+    <string name="label_time">Время приема</string>
+    <string name="error_future_time_required">Время должно быть позже текущего</string>
+    <string name="error_invalid_datetime">Неверный формат даты или времени</string>
+
+    <!-- Подсказки для телефонных номеров по странам -->
+    <string name="hint_russia">+7 9XX XXX-XX-XX</string>
+    <string name="hint_kazakhstan">+7 7XX XXX-XX-XX</string>
+    <string name="hint_belarus">+375 XX XXX-XX-XX</string>
+    <string name="hint_armenia">+374 XX XXX-XXXX</string>
+    <string name="hint_israel">+972 XXX-XXXXX</string>
+    <string name="hint_kyrgyzstan">+996 XXX XXX-XX-XX</string>
+    <string name="hint_uzbekistan">+998 XX XXX-XX-XX</string>
+    <string name="hint_tajikistan">+992 XXX XXX-XX-XX</string>
+    <string name="hint_georgia">+995 XXX XXX-XX-XX</string>
+</resources>

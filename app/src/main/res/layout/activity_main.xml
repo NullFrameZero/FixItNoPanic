@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#17181A"
+    tools:context=".MainActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp">
+
+        <TextView
+            android:id="@+id/timeTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:padding="16dp"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.496"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="чт 20 нояб 2025 г, 15:00" />
+
+        <Button
+            android:id="@+id/buttonMain"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Главная"
+            android:textColor="@color/button_text_color"
+            android:background="@drawable/btn_nav_selector"
+            android:backgroundTint="@null"
+            android:padding="16dp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintTop_toBottomOf="@id/timeTextView"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintWidth_percent="0.8"
+            tools:ignore="HardcodedText" />
+
+        <Button
+            android:id="@+id/buttonCreate"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Создать заявку"
+            android:textColor="@color/button_text_color"
+            android:background="@drawable/btn_nav_selector"
+            android:backgroundTint="@null"
+            android:padding="16dp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintTop_toBottomOf="@id/buttonMain"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintWidth_percent="0.8"
+            tools:ignore="HardcodedText" />
+
+        <Button
+            android:id="@+id/buttonStats"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Статистика"
+            android:textColor="@color/button_text_color"
+            android:background="@drawable/btn_nav_selector"
+            android:backgroundTint="@null"
+            android:padding="16dp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintTop_toBottomOf="@id/buttonCreate"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintWidth_percent="0.8"
+            tools:ignore="HardcodedText" />
+
+        <!-- "Черно-серое окно" -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/tableContainer"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:background="@drawable/table_background"
+            android:elevation="4dp"
+            android:padding="8dp"
+            app:layout_constraintTop_toBottomOf="@id/buttonStats"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <!-- Заголовок внутри окна -->
+            <TextView
+                android:id="@+id/mainTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Заявки на ремонт компьютеров"
+                android:textColor="@android:color/white"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="16dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <!-- Горизонтальный скролл для данных -->
+            <HorizontalScrollView
+                android:id="@+id/horizontalScrollView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:scrollbars="horizontal"
+                app:layout_constraintTop_toBottomOf="@id/mainTitle"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/tableHeader"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingVertical="8dp"
+                        android:paddingHorizontal="4dp"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintStart_toStartOf="parent">
+
+                        <!-- ID -->
+                        <TextView
+                            android:id="@+id/headerId"
+                            android:layout_width="50dp"
+                            android:layout_height="48dp"
+                            android:text="ID"
+                            android:textColor="#CCCCCC"
+                            android:textSize="14sp"
+                            android:gravity="center"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintStart_toStartOf="parent" />
+
+                        <!-- Клиент -->
+                        <TextView
+                            android:id="@+id/headerClient"
+                            android:layout_width="150dp"
+                            android:layout_height="48dp"
+                            android:text="Клиент"
+                            android:textColor="#CCCCCC"
+                            android:textSize="14sp"
+                            android:gravity="center"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintStart_toEndOf="@id/headerId" />
+
+                        <!-- Модель -->
+                        <TextView
+                            android:id="@+id/headerModel"
+                            android:layout_width="150dp"
+                            android:layout_height="48dp"
+                            android:text="Модель"
+                            android:textColor="#CCCCCC"
+                            android:textSize="14sp"
+                            android:gravity="center"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintStart_toEndOf="@id/headerClient" />
+
+                        <!-- Проблема -->
+                        <TextView
+                            android:id="@+id/headerProblem"
+                            android:layout_width="150dp"
+                            android:layout_height="48dp"
+                            android:text="Проблема"
+                            android:textColor="#CCCCCC"
+                            android:textSize="14sp"
+                            android:gravity="center"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintStart_toEndOf="@id/headerModel" />
+
+                        <!-- Дата создания -->
+                        <TextView
+                            android:id="@+id/headerDateCreated"
+                            android:layout_width="140dp"
+                            android:layout_height="48dp"
+                            android:text="Дата создания"
+                            android:textColor="#CCCCCC"
+                            android:textSize="14sp"
+                            android:gravity="center"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintStart_toEndOf="@id/headerProblem" />
+
+                        <!-- Дата завершения -->
+                        <TextView
+                            android:id="@+id/headerDateCompleted"
+                            android:layout_width="140dp"
+                            android:layout_height="48dp"
+                            android:text="Дата завершения"
+                            android:textColor="#CCCCCC"
+                            android:textSize="14sp"
+                            android:gravity="center"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintStart_toEndOf="@id/headerDateCreated" />
+
+                        <!-- Статус -->
+                        <TextView
+                            android:id="@+id/headerStatus"
+                            android:layout_width="80dp"
+                            android:layout_height="48dp"
+                            android:text="Статус"
+                            android:textColor="#CCCCCC"
+                            android:textSize="14sp"
+                            android:gravity="center"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintStart_toEndOf="@id/headerDateCompleted" />
+
+                        <!-- Действия -->
+                        <TextView
+                            android:id="@+id/headerActions"
+                            android:layout_width="120dp"
+                            android:layout_height="48dp"
+                            android:text="Действия"
+                            android:textColor="#CCCCCC"
+                            android:textSize="14sp"
+                            android:gravity="center"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintStart_toEndOf="@id/headerStatus" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <!-- Линия под заголовками -->
+
+                    <View
+                        android:id="@+id/headerDivider"
+                        android:layout_width="match_parent"
+                        android:layout_height="3dp"
+                        android:background="#444444"
+                        app:layout_constraintTop_toBottomOf="@id/tableHeader"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recyclerViewRequests"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        app:layout_constraintTop_toBottomOf="@id/headerDivider"
+                        app:layout_constraintStart_toStartOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </HorizontalScrollView>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>

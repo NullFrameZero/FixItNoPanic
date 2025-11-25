@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="12dp"
+    android:background="@drawable/stat_block_background"
+    android:layout_marginBottom="8dp">
+
+    <!-- ID -->
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.1"
+        android:text="ID"
+        android:textColor="#AAAAAA"
+        android:textSize="14sp"
+        android:gravity="center"
+        android:paddingHorizontal="8dp"
+        android:paddingVertical="4dp"
+        android:textStyle="bold"
+        android:singleLine="true"
+        android:ellipsize="end"
+        android:maxLines="1"/>
+
+    <!-- Клиент -->
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.3"
+        android:text="Клиент"
+        android:textColor="#AAAAAA"
+        android:textSize="14sp"
+        android:gravity="center"
+        android:paddingHorizontal="8dp"
+        android:paddingVertical="4dp"
+        android:textStyle="bold"
+        android:singleLine="true"
+        android:ellipsize="end"
+        android:maxLines="1"/>
+
+    <!-- Модель -->
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.3"
+        android:text="Модель"
+        android:textColor="#AAAAAA"
+        android:textSize="14sp"
+        android:paddingHorizontal="8dp"
+        android:paddingVertical="4dp"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:singleLine="true"
+        android:ellipsize="end"
+        android:maxLines="1"/>
+
+    <!-- Дата создания -->
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.2"
+        android:text="Дата создания"
+        android:textColor="#AAAAAA"
+        android:textSize="14sp"
+        android:paddingHorizontal="8dp"
+        android:paddingVertical="4dp"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:singleLine="true"
+        android:ellipsize="end"
+        android:maxLines="1"/>
+
+    <!-- Дата завершения -->
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.2"
+        android:text="Дата завершения"
+        android:textColor="#AAAAAA"
+        android:textSize="14sp"
+        android:paddingHorizontal="8dp"
+        android:paddingVertical="4dp"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:singleLine="true"
+        android:ellipsize="end"
+        android:maxLines="1"/>
+
+    <!-- Статус -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Статус"
+        android:textColor="#AAAAAA"
+        android:textSize="14sp"
+        android:paddingHorizontal="8dp"
+        android:paddingVertical="4dp"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:singleLine="true"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:layout_gravity="center_vertical" />
+</LinearLayout>

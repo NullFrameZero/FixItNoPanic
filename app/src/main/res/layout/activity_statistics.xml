@@ -1,0 +1,422 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#17181A"
+    tools:context=".StatisticsActivity">
+
+    <!-- Кнопка "Назад" -->
+
+    <!-- ScrollView для прокрутки всего контента -->
+
+    <ImageButton
+        android:id="@+id/buttonBack"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="4dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="Назад"
+        android:padding="8dp"
+        android:src="@drawable/ic_back"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.083" />
+
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="105dp"
+        android:layout_marginBottom="32dp"
+        android:fillViewport="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0">
+
+        <!-- Основной контейнер для всех элементов -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginEnd="32dp"
+            android:orientation="vertical"
+            android:padding="24dp">
+
+            <!-- Заголовок "Статистика" по центру -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="24dp"
+                android:gravity="center_horizontal"
+                android:text="Статистика"
+                android:textColor="@android:color/white"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                tools:ignore="HardcodedText" />
+
+            <!-- Карточка 1: Всего заявок -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/stat_block_background"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:gravity="center"
+                    android:text="Всего заявок"
+                    android:textColor="#CCCCCC"
+                    android:textSize="16sp"
+                    tools:ignore="HardcodedText" />
+
+                <TextView
+                    android:id="@+id/textTotalRequests"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="0"
+                    android:textColor="#4CAF50"
+                    android:textSize="32sp"
+                    android:textStyle="bold"
+                    tools:ignore="HardcodedText" />
+            </LinearLayout>
+
+            <!-- Карточка 2: В работе -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/stat_block_background"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:gravity="center"
+                    android:text="В работе"
+                    android:textColor="#CCCCCC"
+                    android:textSize="16sp"
+                    tools:ignore="HardcodedText" />
+
+                <TextView
+                    android:id="@+id/textInWorkRequests"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="0"
+                    android:textColor="#4CAF50"
+                    android:textSize="32sp"
+                    android:textStyle="bold"
+                    tools:ignore="HardcodedText" />
+            </LinearLayout>
+
+            <!-- Карточка 3: Выполнено -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="24dp"
+                android:background="@drawable/stat_block_background"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:gravity="center"
+                    android:text="Выполнено"
+                    android:textColor="#CCCCCC"
+                    android:textSize="16sp"
+                    tools:ignore="HardcodedText" />
+
+                <TextView
+                    android:id="@+id/textCompletedRequests"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="0"
+                    android:textColor="#4CAF50"
+                    android:textSize="32sp"
+                    android:textStyle="bold"
+                    tools:ignore="HardcodedText" />
+            </LinearLayout>
+
+            <!-- Блок "Заявки в работе" -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/dialog_background"
+                android:orientation="vertical"
+                android:padding="16dp"
+                android:layout_marginBottom="24dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Заявки в работе"
+                    android:textColor="@android:color/white"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="16dp"
+                    tools:ignore="HardcodedText" />
+
+                <!-- Горизонтальный скролл для заголовков и данных -->
+                <HorizontalScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fillViewport="true">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingStart="8dp"
+                        android:paddingEnd="8dp">
+
+                        <!-- Заголовки -->
+
+                        <!-- ID -->
+                        <TextView
+                            android:id="@+id/headerId"
+                            android:layout_width="50dp"
+                            android:layout_height="48dp"
+                            android:text="ID"
+                            android:textColor="#CCCCCC"
+                            android:textSize="14sp"
+                            android:gravity="center"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintStart_toStartOf="parent" />
+
+                        <!-- Клиент -->
+                        <TextView
+                            android:id="@+id/headerClient"
+                            android:layout_width="150dp"
+                            android:layout_height="48dp"
+                            android:text="Клиент"
+                            android:textColor="#CCCCCC"
+                            android:textSize="14sp"
+                            android:gravity="center"
+                            app:layout_constraintTop_toTopOf="@id/headerId"
+                            app:layout_constraintStart_toEndOf="@id/headerId"
+                            app:layout_constraintEnd_toStartOf="@id/headerModel" />
+
+                        <!-- Модель -->
+                        <TextView
+                            android:id="@+id/headerModel"
+                            android:layout_width="150dp"
+                            android:layout_height="48dp"
+                            android:text="Модель"
+                            android:textColor="#CCCCCC"
+                            android:textSize="14sp"
+                            android:gravity="center"
+                            app:layout_constraintTop_toTopOf="@id/headerId"
+                            app:layout_constraintStart_toEndOf="@id/headerClient"
+                            app:layout_constraintEnd_toStartOf="@id/headerDateCreated" />
+
+                        <!-- Дата создания -->
+                        <TextView
+                            android:id="@+id/headerDateCreated"
+                            android:layout_width="140dp"
+                            android:layout_height="48dp"
+                            android:text="Дата создания"
+                            android:textColor="#CCCCCC"
+                            android:textSize="14sp"
+                            android:gravity="center"
+                            app:layout_constraintTop_toTopOf="@id/headerId"
+                            app:layout_constraintStart_toEndOf="@id/headerModel"
+                            app:layout_constraintEnd_toStartOf="@id/headerStatus" />
+
+                        <!-- Статус -->
+                        <TextView
+                            android:id="@+id/headerStatus"
+                            android:layout_width="80dp"
+                            android:layout_height="48dp"
+                            android:text="Статус"
+                            android:textColor="#CCCCCC"
+                            android:textSize="14sp"
+                            android:gravity="center"
+                            app:layout_constraintTop_toTopOf="@id/headerId"
+                            app:layout_constraintStart_toEndOf="@id/headerDateCreated"
+                            app:layout_constraintEnd_toEndOf="parent" />
+
+                        <!-- Разделительная линия под заголовками -->
+                        <View
+                            android:id="@+id/headerDivider"
+                            android:layout_width="match_parent"
+                            android:layout_height="3dp"
+                            android:background="#444444"
+                            app:layout_constraintTop_toBottomOf="@id/headerId"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent" />
+
+                        <!-- Контейнер для данных (будет заполняться программно) -->
+                        <LinearLayout
+                            android:id="@+id/requestsInWorkContainer"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            app:layout_constraintTop_toBottomOf="@id/headerDivider"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent">
+                            <!-- Элементы списка будут добавляться программно -->
+                        </LinearLayout>
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </HorizontalScrollView>
+
+            </LinearLayout>
+
+            <!-- Блок "Выполненные заявки" -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/dialog_background"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Выполненные заявки"
+                    android:textColor="@android:color/white"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="16dp"
+                    tools:ignore="HardcodedText" />
+
+                <!-- Горизонтальный скролл для заголовков и данных -->
+                <HorizontalScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fillViewport="true">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingStart="8dp"
+                        android:paddingEnd="8dp">
+
+                        <!-- Заголовки -->
+
+                        <!-- ID -->
+                        <TextView
+                            android:id="@+id/headerIdCompleted"
+                            android:layout_width="50dp"
+                            android:layout_height="48dp"
+                            android:text="ID"
+                            android:textColor="#CCCCCC"
+                            android:textSize="14sp"
+                            android:gravity="center"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintStart_toStartOf="parent" />
+
+                        <!-- Клиент -->
+                        <TextView
+                            android:id="@+id/headerClientCompleted"
+                            android:layout_width="150dp"
+                            android:layout_height="48dp"
+                            android:text="Клиент"
+                            android:textColor="#CCCCCC"
+                            android:textSize="14sp"
+                            android:gravity="center"
+                            app:layout_constraintTop_toTopOf="@id/headerIdCompleted"
+                            app:layout_constraintStart_toEndOf="@id/headerIdCompleted"
+                            app:layout_constraintEnd_toStartOf="@id/headerModelCompleted" />
+
+                        <!-- Модель -->
+                        <TextView
+                            android:id="@+id/headerModelCompleted"
+                            android:layout_width="150dp"
+                            android:layout_height="48dp"
+                            android:text="Модель"
+                            android:textColor="#CCCCCC"
+                            android:textSize="14sp"
+                            android:gravity="center"
+                            app:layout_constraintTop_toTopOf="@id/headerIdCompleted"
+                            app:layout_constraintStart_toEndOf="@id/headerClientCompleted"
+                            app:layout_constraintEnd_toStartOf="@id/headerDateCreatedCompleted" />
+
+                        <!-- Дата создания -->
+                        <TextView
+                            android:id="@+id/headerDateCreatedCompleted"
+                            android:layout_width="140dp"
+                            android:layout_height="48dp"
+                            android:text="Дата создания"
+                            android:textColor="#CCCCCC"
+                            android:textSize="14sp"
+                            android:gravity="center"
+                            app:layout_constraintTop_toTopOf="@id/headerIdCompleted"
+                            app:layout_constraintStart_toEndOf="@id/headerModelCompleted"
+                            app:layout_constraintEnd_toStartOf="@id/headerDateCompletedCompleted" />
+
+                        <!-- Дата завершения -->
+                        <TextView
+                            android:id="@+id/headerDateCompletedCompleted"
+                            android:layout_width="140dp"
+                            android:layout_height="48dp"
+                            android:text="Дата завершения"
+                            android:textColor="#CCCCCC"
+                            android:textSize="14sp"
+                            android:gravity="center"
+                            app:layout_constraintTop_toTopOf="@id/headerIdCompleted"
+                            app:layout_constraintStart_toEndOf="@id/headerDateCreatedCompleted"
+                            app:layout_constraintEnd_toStartOf="@id/headerStatusCompleted" />
+
+                        <!-- Статус -->
+                        <TextView
+                            android:id="@+id/headerStatusCompleted"
+                            android:layout_width="80dp"
+                            android:layout_height="48dp"
+                            android:text="Статус"
+                            android:textColor="#CCCCCC"
+                            android:textSize="14sp"
+                            android:gravity="center"
+                            app:layout_constraintTop_toTopOf="@id/headerIdCompleted"
+                            app:layout_constraintStart_toEndOf="@id/headerDateCompletedCompleted"
+                            app:layout_constraintEnd_toEndOf="parent" />
+
+                        <!-- Разделительная линия под заголовками -->
+                        <View
+                            android:id="@+id/headerDividerCompleted"
+                            android:layout_width="match_parent"
+                            android:layout_height="3dp"
+                            android:background="#444444"
+                            app:layout_constraintTop_toBottomOf="@id/headerIdCompleted"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent" />
+
+                        <!-- Контейнер для данных (будет заполняться программно) -->
+                        <LinearLayout
+                            android:id="@+id/requestsCompletedContainer"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            app:layout_constraintTop_toBottomOf="@id/headerDividerCompleted"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent">
+                            <!-- Элементы списка будут добавляться программно -->
+                        </LinearLayout>
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </HorizontalScrollView>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
