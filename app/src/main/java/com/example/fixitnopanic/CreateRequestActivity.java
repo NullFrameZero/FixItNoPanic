@@ -132,10 +132,9 @@ public class CreateRequestActivity extends AppCompatActivity {
                     return;
                 }
 
-                String cleanDigits = input.replaceAll("[^+\\d]", "");
                 boolean hasDigit = false;
-                for (int i = 0; i < cleanDigits.length(); i++) {
-                    if (Character.isDigit(cleanDigits.charAt(i))) {
+                for (char c : input.toCharArray()) {
+                    if (Character.isDigit(c)) {
                         hasDigit = true;
                         break;
                     }
@@ -197,7 +196,7 @@ public class CreateRequestActivity extends AppCompatActivity {
                 loadRequestData(currentRequestId);
                 buttonCreateRequest.setText(R.string.save_changes);
             } else {
-                Toast.makeText(CreateRequestActivity.this, R.string.edit_load_error, Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, R.string.edit_load_error, Toast.LENGTH_SHORT).show();
                 finish();
             }
         }
@@ -227,37 +226,6 @@ public class CreateRequestActivity extends AppCompatActivity {
         });
     }
 
-    // === НОВЫЙ МЕТОД: автоопределение страны по номеру ===
-    private Country detectCountryByPhone(String phone) {
-        String clean = phone.replaceAll("[^+\\d]", "");
-        for (Country c : countries) {
-            if (c.isDefault()) continue;
-            if (clean.startsWith(c.getCode())) {
-                return c;
-            }
-        }
-        // Для +7 — попытка различить РУ и КЗ по первым цифрам
-        if (clean.startsWith("+7") && clean.length() >= 4) {
-            String digits = clean.substring(2); // после +7
-            if (digits.length() >= 3) {
-                String firstThree = digits.substring(0, 3);
-                if (firstThree.startsWith("6") || firstThree.startsWith("7") || firstThree.startsWith("8")) {
-                    for (Country c : countries) {
-                        if ("+7".equals(c.getCode()) && "Казахстан".equals(c.getName())) {
-                            return c;
-                        }
-                    }
-                }
-            }
-            for (Country c : countries) {
-                if ("+7".equals(c.getCode()) && "Россия".equals(c.getName())) {
-                    return c;
-                }
-            }
-        }
-        return countries.get(0); // default
-    }
-
     private static class CountrySpinnerAdapter extends BaseAdapter {
         private final Context context;
         private final List<Country> countries;
@@ -270,19 +238,11 @@ public class CreateRequestActivity extends AppCompatActivity {
         }
 
         @Override
-        public int getCount() {
-            return countries.size();
-        }
-
+        public int getCount() { return countries.size(); }
         @Override
-        public Object getItem(int position) {
-            return countries.get(position);
-        }
-
+        public Object getItem(int position) { return countries.get(position); }
         @Override
-        public long getItemId(int position) {
-            return position;
-        }
+        public long getItemId(int position) { return position; }
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
@@ -299,20 +259,19 @@ public class CreateRequestActivity extends AppCompatActivity {
             if (view == null) {
                 view = inflater.inflate(R.layout.popup_item_country, parent, false);
             }
+            bindView(view, countries.get(position));
+            return view;
+        }
 
-            Country country = countries.get(position);
+        private void bindView(View view, Country country) {
             ImageView flagImageView = view.findViewById(R.id.flagImageView);
             TextView countryNameTextView = view.findViewById(R.id.countryNameTextView);
-
             flagImageView.setImageResource(country.getFlag());
-
             if (country.isDefault()) {
                 countryNameTextView.setText(country.getName());
             } else {
                 countryNameTextView.setText(country.getName() + " (" + country.getCode() + ")");
             }
-
-            return view;
         }
     }
 
@@ -345,7 +304,6 @@ public class CreateRequestActivity extends AppCompatActivity {
 
     private void handleSpecialCountryDetection(String input) {
         Country detectedCountry = null;
-
         for (Country country : countries) {
             if (country.isDefault()) continue;
             if (input.startsWith(country.getCode())) {
@@ -357,12 +315,12 @@ public class CreateRequestActivity extends AppCompatActivity {
         if (detectedCountry == null) {
             String digitsAfterPlus = input.substring(1).replaceAll("[^\\d]", "");
             if (!digitsAfterPlus.isEmpty()) {
-                for (int length = 3; length >= 1; length--) {
-                    if (digitsAfterPlus.length() >= length) {
-                        String prefix = "+" + digitsAfterPlus.substring(0, length);
-                        for (Country country : countries) {
-                            if (!country.isDefault() && country.getCode().startsWith(prefix)) {
-                                detectedCountry = country;
+                for (int len = 3; len >= 1; len--) {
+                    if (digitsAfterPlus.length() >= len) {
+                        String prefix = "+" + digitsAfterPlus.substring(0, len);
+                        for (Country c : countries) {
+                            if (!c.isDefault() && c.getCode().startsWith(prefix)) {
+                                detectedCountry = c;
                                 break;
                             }
                         }
@@ -383,12 +341,11 @@ public class CreateRequestActivity extends AppCompatActivity {
         Country exactMatchCountry = null;
         for (Country country : countries) {
             if (country.isDefault()) continue;
-            if (input.startsWith(country.getCode())) {
-                if (input.length() == country.getCode().length() ||
-                        (input.length() > country.getCode().length() && Character.isDigit(input.charAt(country.getCode().length())))) {
-                    exactMatchCountry = country;
-                    break;
-                }
+            if (input.startsWith(country.getCode()) &&
+                    (input.length() == country.getCode().length() ||
+                            (input.length() > country.getCode().length() && Character.isDigit(input.charAt(country.getCode().length()))))) {
+                exactMatchCountry = country;
+                break;
             }
         }
 
@@ -414,52 +371,49 @@ public class CreateRequestActivity extends AppCompatActivity {
     private String formatPhoneNumber(String input, boolean isDeleting) {
         if (isDeleting) return input;
         String cleanInput = input.replace(" ", "");
-
         if (selectedCountry != null && selectedCountry.isDefault()) {
             return cleanInput.startsWith("+") ? cleanInput : cleanInput.replaceAll("[^\\d]", "");
         }
 
         String countryCode = selectedCountry != null ? selectedCountry.getCode() : "";
-        String localNumber;
-
+        String localDigits = "";
         if (!countryCode.isEmpty() && cleanInput.startsWith(countryCode)) {
-            localNumber = cleanInput.substring(countryCode.length()).replaceAll("[^\\d]", "");
+            localDigits = cleanInput.substring(countryCode.length()).replaceAll("[^\\d]", "");
         } else {
-            localNumber = cleanInput.replaceAll("[^\\d]", "");
-            if (localNumber.startsWith(countryCode.replace("+", "")) && !countryCode.isEmpty()) {
-                localNumber = localNumber.substring(countryCode.length() - 1);
+            localDigits = cleanInput.replaceAll("[^\\d]", "");
+            if (localDigits.startsWith(countryCode.replace("+", "")) && !countryCode.isEmpty()) {
+                localDigits = localDigits.substring(Math.max(0, countryCode.length() - 1));
             }
         }
 
-        Integer maxDigitsObj = maxDigitsMap.get(countryCode);
-        int maxDigits = (maxDigitsObj != null) ? maxDigitsObj : 15;
-
-        if (localNumber.length() > maxDigits) {
-            localNumber = localNumber.substring(0, maxDigits);
+        Integer maxObj = maxDigitsMap.get(countryCode);
+        int maxDigits = (maxObj != null) ? maxObj : 15;
+        if (localDigits.length() > maxDigits) {
+            localDigits = localDigits.substring(0, maxDigits);
         }
 
         if ("+7".equals(countryCode)) {
             if ("Казахстан".equals(selectedCountry != null ? selectedCountry.getName() : null)) {
-                return localNumber.isEmpty() ? countryCode + " " : countryCode + " " + formatKZInternal(localNumber);
+                return localDigits.isEmpty() ? countryCode + " " : countryCode + " " + formatKZInternal(localDigits);
             } else {
-                return localNumber.isEmpty() ? countryCode + " " : countryCode + " " + formatRUInternal(localNumber);
+                return localDigits.isEmpty() ? countryCode + " " : countryCode + " " + formatRUInternal(localDigits);
             }
         } else if ("+374".equals(countryCode)) {
-            return localNumber.isEmpty() ? countryCode + " " : countryCode + " " + formatAMInternal(localNumber);
+            return localDigits.isEmpty() ? countryCode + " " : countryCode + " " + formatAMInternal(localDigits);
         } else if ("+996".equals(countryCode)) {
-            return localNumber.isEmpty() ? countryCode + " " : countryCode + " " + formatKGInternal(localNumber);
+            return localDigits.isEmpty() ? countryCode + " " : countryCode + " " + formatKGInternal(localDigits);
         } else if ("+375".equals(countryCode)) {
-            return localNumber.isEmpty() ? countryCode + " " : countryCode + " " + formatBYInternal(localNumber);
+            return localDigits.isEmpty() ? countryCode + " " : countryCode + " " + formatBYInternal(localDigits);
         } else if ("+998".equals(countryCode)) {
-            return localNumber.isEmpty() ? countryCode + " " : countryCode + " " + formatUZInternal(localNumber);
+            return localDigits.isEmpty() ? countryCode + " " : countryCode + " " + formatUZInternal(localDigits);
         } else if ("+992".equals(countryCode)) {
-            return localNumber.isEmpty() ? countryCode + " " : countryCode + " " + formatTJInternal(localNumber);
+            return localDigits.isEmpty() ? countryCode + " " : countryCode + " " + formatTJInternal(localDigits);
         } else if ("+995".equals(countryCode)) {
-            return localNumber.isEmpty() ? countryCode + " " : countryCode + " " + formatGEInternal(localNumber);
+            return localDigits.isEmpty() ? countryCode + " " : countryCode + " " + formatGEInternal(localDigits);
         } else if ("+972".equals(countryCode)) {
-            return localNumber.isEmpty() ? countryCode + " " : countryCode + " " + formatILInternal(localNumber);
+            return localDigits.isEmpty() ? countryCode + " " : countryCode + " " + formatILInternal(localDigits);
         } else {
-            return localNumber.isEmpty() ? countryCode + " " : countryCode + " " + localNumber;
+            return localDigits.isEmpty() ? countryCode + " " : countryCode + " " + localDigits;
         }
     }
 
@@ -480,10 +434,8 @@ public class CreateRequestActivity extends AppCompatActivity {
     private void selectCountry(Country country) {
         selectedCountry = country;
         countryCodeSpinner.post(() -> {
-            int position = countries.indexOf(country);
-            if (position > 0) {
-                countryCodeSpinner.setSelection(position);
-            }
+            int pos = countries.indexOf(country);
+            if (pos > 0) countryCodeSpinner.setSelection(pos);
         });
         countryFlagImageView.setImageResource(country.getFlag());
         updatePhoneHint();
@@ -492,8 +444,8 @@ public class CreateRequestActivity extends AppCompatActivity {
     private void safeSetPhoneText(String text) {
         editTextPhone.removeTextChangedListener(phoneTextWatcher);
         editTextPhone.setText(text);
-        int safeCursor = Math.min(text.length(), editTextPhone.getText().length());
-        editTextPhone.setSelection(safeCursor);
+        int pos = Math.min(text.length(), editTextPhone.getText().length());
+        editTextPhone.setSelection(pos);
         editTextPhone.addTextChangedListener(phoneTextWatcher);
     }
 
@@ -501,8 +453,7 @@ public class CreateRequestActivity extends AppCompatActivity {
         String hint;
         if (selectedCountry != null && selectedCountry.isDefault()) {
             hint = getString(R.string.phone_hint);
-        } else if ("+7".equals(selectedCountry != null ? selectedCountry.getCode() : null) &&
-                "Казахстан".equals(selectedCountry != null ? selectedCountry.getName() : null)) {
+        } else if ("+7".equals(selectedCountry != null ? selectedCountry.getCode() : null) && "Казахстан".equals(selectedCountry != null ? selectedCountry.getName() : null)) {
             hint = getString(R.string.hint_kazakhstan);
         } else if ("+7".equals(selectedCountry != null ? selectedCountry.getCode() : null)) {
             hint = getString(R.string.hint_russia);
@@ -526,6 +477,7 @@ public class CreateRequestActivity extends AppCompatActivity {
         editTextPhone.setHint(hint);
     }
 
+    // Форматы
     private String formatRUInternal(String digits) {
         StringBuilder sb = new StringBuilder();
         if (digits.length() >= 1) {
@@ -545,10 +497,7 @@ public class CreateRequestActivity extends AppCompatActivity {
         return sb.toString();
     }
 
-    private String formatKZInternal(String digits) {
-        return formatRUInternal(digits);
-    }
-
+    private String formatKZInternal(String digits) { return formatRUInternal(digits); }
     private String formatBYInternal(String digits) {
         StringBuilder sb = new StringBuilder();
         if (digits.length() >= 1) {
@@ -567,7 +516,6 @@ public class CreateRequestActivity extends AppCompatActivity {
         }
         return sb.toString();
     }
-
     private String formatAMInternal(String digits) {
         StringBuilder sb = new StringBuilder();
         if (digits.length() >= 1) {
@@ -583,7 +531,6 @@ public class CreateRequestActivity extends AppCompatActivity {
         }
         return sb.toString();
     }
-
     private String formatILInternal(String digits) {
         StringBuilder sb = new StringBuilder();
         if (digits.length() >= 1) {
@@ -599,7 +546,6 @@ public class CreateRequestActivity extends AppCompatActivity {
         }
         return sb.toString();
     }
-
     private String formatKGInternal(String digits) {
         StringBuilder sb = new StringBuilder();
         if (digits.length() >= 1) {
@@ -615,7 +561,6 @@ public class CreateRequestActivity extends AppCompatActivity {
         }
         return sb.toString();
     }
-
     private String formatUZInternal(String digits) {
         StringBuilder sb = new StringBuilder();
         if (digits.length() >= 1) {
@@ -634,7 +579,6 @@ public class CreateRequestActivity extends AppCompatActivity {
         }
         return sb.toString();
     }
-
     private String formatTJInternal(String digits) {
         StringBuilder sb = new StringBuilder();
         if (digits.length() >= 1) {
@@ -653,7 +597,6 @@ public class CreateRequestActivity extends AppCompatActivity {
         }
         return sb.toString();
     }
-
     private String formatGEInternal(String digits) {
         StringBuilder sb = new StringBuilder();
         if (digits.length() >= 1) {
@@ -691,37 +634,55 @@ public class CreateRequestActivity extends AppCompatActivity {
         return (val != null) ? val : 15;
     }
 
+    // ✅ КЛЮЧЕВОЙ МЕТОД — ПРАВИЛЬНАЯ ВАЛИДАЦИЯ
     private boolean isValidPhoneNumber(String phone, Country country) {
-        if (phone.isEmpty()) return false;
-        String digits = phone.replaceAll("[^\\d]", "");
-        int minDigits = getMinDigitsForCountry(country);
-        int maxDigits = getMaxDigitsForCountry(country);
-        return digits.length() >= minDigits && digits.length() <= maxDigits;
+        if (phone.isEmpty() || country == null || country.isDefault()) {
+            return false;
+        }
+
+        String clean = phone.replaceAll("[^+\\d]", "");
+        String countryCode = country.getCode();
+        String localDigits;
+
+        if (clean.startsWith(countryCode)) {
+            localDigits = clean.substring(countryCode.length()).replaceAll("[^\\d]", "");
+        } else {
+            // Попытка обработать номер без явного кода
+            localDigits = clean.replaceAll("[^\\d]", "");
+            if ("+7".equals(countryCode) && localDigits.startsWith("7") && localDigits.length() == 11) {
+                localDigits = localDigits.substring(1);
+            }
+            // Для других стран не угадываем
+        }
+
+        int min = getMinDigitsForCountry(country);
+        int max = getMaxDigitsForCountry(country);
+        return localDigits.length() >= min && localDigits.length() <= max;
     }
 
     private void showDatePicker() {
         Calendar cal = Calendar.getInstance();
-        DatePickerDialog datePickerDialog = new DatePickerDialog(
+        DatePickerDialog dialog = new DatePickerDialog(
                 this,
-                (view, year, month, dayOfMonth) -> {
-                    String formattedDate = String.format(Locale.getDefault(), "%02d.%02d.%04d", dayOfMonth, month + 1, year);
-                    editTextDate.setText(formattedDate);
+                (view, year, month, day) -> {
+                    String d = String.format(Locale.getDefault(), "%02d.%02d.%04d", day, month + 1, year);
+                    editTextDate.setText(d);
                 },
                 cal.get(Calendar.YEAR),
                 cal.get(Calendar.MONTH),
                 cal.get(Calendar.DAY_OF_MONTH)
         );
-        datePickerDialog.getDatePicker().setMinDate(cal.getTimeInMillis());
-        datePickerDialog.show();
+        dialog.getDatePicker().setMinDate(System.currentTimeMillis());
+        dialog.show();
     }
 
     private void showTimePicker() {
         Calendar cal = Calendar.getInstance();
         new TimePickerDialog(
                 this,
-                (view, hourOfDay, minute) -> {
-                    String formattedTime = String.format(Locale.getDefault(), "%02d:%02d", hourOfDay, minute);
-                    editTextTime.setText(formattedTime);
+                (view, hour, minute) -> {
+                    String t = String.format(Locale.getDefault(), "%02d:%02d", hour, minute);
+                    editTextTime.setText(t);
                 },
                 cal.get(Calendar.HOUR_OF_DAY),
                 cal.get(Calendar.MINUTE),
@@ -758,13 +719,13 @@ public class CreateRequestActivity extends AppCompatActivity {
             return;
         }
 
-        // === ФИКС: автоопределение страны перед валидацией ===
-        Country countryToValidate = selectedCountry;
-        if (countryToValidate == null || countryToValidate.isDefault()) {
-            countryToValidate = detectCountryByPhone(phone);
+        // 🔥 КРИТИЧЕСКИ ВАЖНО: убедиться, что страна определена
+        Country validationCountry = selectedCountry;
+        if (validationCountry == null || validationCountry.isDefault()) {
+            validationCountry = detectCountryFromPhone(phone);
         }
 
-        if (!isValidPhoneNumber(phone, countryToValidate)) {
+        if (!isValidPhoneNumber(phone, validationCountry)) {
             Toast.makeText(this, R.string.error_phone_invalid, Toast.LENGTH_SHORT).show();
             return;
         }
@@ -779,12 +740,41 @@ public class CreateRequestActivity extends AppCompatActivity {
         }
     }
 
+    private Country detectCountryFromPhone(String phone) {
+        String clean = phone.replaceAll("[^+\\d]", "");
+        for (Country c : countries) {
+            if (c.isDefault()) continue;
+            if (clean.startsWith(c.getCode())) {
+                return c;
+            }
+        }
+        if (clean.startsWith("+7")) {
+            String digits = clean.substring(1).replaceAll("[^\\d]", "");
+            if (digits.length() >= 3) {
+                String first3 = digits.substring(0, 3);
+                if (first3.startsWith("6") || first3.startsWith("7") || first3.startsWith("8")) {
+                    for (Country c : countries) {
+                        if ("+7".equals(c.getCode()) && "Казахстан".equals(c.getName())) {
+                            return c;
+                        }
+                    }
+                }
+            }
+            for (Country c : countries) {
+                if ("+7".equals(c.getCode()) && "Россия".equals(c.getName())) {
+                    return c;
+                }
+            }
+        }
+        return countries.get(0);
+    }
+
     private void loadRequestData(long id) {
-        List<RequestItem> allRequests = requestDao.getAllRequests();
+        List<RequestItem> all = requestDao.getAllRequests();
         RequestItem req = null;
-        for (RequestItem item : allRequests) {
-            if (item.getId() == id) {
-                req = item;
+        for (RequestItem r : all) {
+            if (r.getId() == id) {
+                req = r;
                 break;
             }
         }
@@ -796,50 +786,49 @@ public class CreateRequestActivity extends AppCompatActivity {
 
             String dt = req.getDateCreated();
             if (dt.contains(" ")) {
-                String[] parts = dt.split(" ", 2);
-                editTextDate.setText(parts[0]);
-                editTextTime.setText(parts[1]);
+                String[] p = dt.split(" ", 2);
+                editTextDate.setText(p[0]);
+                editTextTime.setText(p[1]);
             } else {
                 editTextDate.setText(dt);
             }
             editTextDate.setEnabled(false);
             editTextTime.setEnabled(false);
 
-            Country matchedCountry = null;
             String phone = req.getPhone();
-
+            Country matched = null;
             for (Country c : countries) {
                 if (!c.isDefault() && phone.startsWith(c.getCode())) {
-                    matchedCountry = c;
+                    matched = c;
                     break;
                 }
             }
 
-            if (matchedCountry == null && phone.startsWith("+7")) {
+            if (matched == null && phone.startsWith("+7")) {
                 String digits = phone.substring(2).replaceAll("[^\\d]", "");
                 if (digits.length() >= 3) {
-                    String firstThree = digits.substring(0, 3);
-                    if (firstThree.startsWith("6") || firstThree.startsWith("7") || firstThree.startsWith("8")) {
+                    String f3 = digits.substring(0, 3);
+                    if (f3.startsWith("6") || f3.startsWith("7") || f3.startsWith("8")) {
                         for (Country c : countries) {
                             if ("+7".equals(c.getCode()) && "Казахстан".equals(c.getName())) {
-                                matchedCountry = c;
+                                matched = c;
                                 break;
                             }
                         }
                     }
                 }
-                if (matchedCountry == null) {
+                if (matched == null) {
                     for (Country c : countries) {
                         if ("+7".equals(c.getCode()) && "Россия".equals(c.getName())) {
-                            matchedCountry = c;
+                            matched = c;
                             break;
                         }
                     }
                 }
             }
 
-            if (matchedCountry != null) {
-                selectCountry(matchedCountry);
+            if (matched != null) {
+                selectCountry(matched);
                 safeSetPhoneText(phone);
             } else {
                 resetToInitialState();
@@ -872,19 +861,18 @@ public class CreateRequestActivity extends AppCompatActivity {
             return;
         }
 
-        // === ФИКС и здесь: определение страны перед валидацией ===
-        Country countryToValidate = selectedCountry;
-        if (countryToValidate == null || countryToValidate.isDefault()) {
-            countryToValidate = detectCountryByPhone(phone);
+        Country validationCountry = selectedCountry;
+        if (validationCountry == null || validationCountry.isDefault()) {
+            validationCountry = detectCountryFromPhone(phone);
         }
 
-        if (!isValidPhoneNumber(phone, countryToValidate)) {
+        if (!isValidPhoneNumber(phone, validationCountry)) {
             Toast.makeText(this, R.string.error_phone_invalid, Toast.LENGTH_SHORT).show();
             return;
         }
 
-        int rowsUpdated = requestDao.updateRequestData(currentRequestId, name, phone, model, problem);
-        if (rowsUpdated > 0) {
+        int rows = requestDao.updateRequestData(currentRequestId, name, phone, model, problem);
+        if (rows > 0) {
             Toast.makeText(this, R.string.request_updated, Toast.LENGTH_SHORT).show();
         } else {
             Toast.makeText(this, R.string.request_update_error, Toast.LENGTH_SHORT).show();
