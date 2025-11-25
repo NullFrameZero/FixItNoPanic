@@ -50,7 +50,7 @@
     <string name="label_problem">Описание проблемы</string>
     <string name="label_date">Дата приема</string>
     <string name="label_time">Время приема</string>
-    <string name="error_future_time_required">Время должно быть позже текущего</string>
+    <string name="error_time_in_past">Время должно быть позже текущего</string>
     <string name="error_invalid_datetime">Неверный формат даты или времени</string>
 
     <!-- Подсказки для телефонных номеров по странам -->

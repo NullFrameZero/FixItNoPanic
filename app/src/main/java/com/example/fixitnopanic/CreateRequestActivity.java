@@ -93,7 +93,6 @@ public class CreateRequestActivity extends AppCompatActivity {
 
         LinearLayout phoneInputContainer = findViewById(R.id.phoneInputContainer);
 
-        // 🔦 Подсветка границ при фокусе — РУЧНОЕ УПРАВЛЕНИЕ ФОНОМ
         editTextPhone.setOnFocusChangeListener((v, hasFocus) -> {
             if (hasFocus) {
                 phoneInputContainer.setBackgroundResource(R.drawable.edittext_phone_background_focused);
@@ -132,6 +131,7 @@ public class CreateRequestActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
+                if (isEditing) return; // 🔒 Ничего не делаем при редактировании
                 if (isFormatting) return;
                 isFormatting = true;
                 String input = s == null ? "" : s.toString();
@@ -189,6 +189,7 @@ public class CreateRequestActivity extends AppCompatActivity {
         countryCodeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (isEditing) return; // 🔒 Игнорируем выбор страны при редактировании
                 if (position == 0) return;
                 selectCountry(countries.get(position));
                 safeSetPhoneText(countries.get(position).getCode() + " ");
@@ -287,6 +288,7 @@ public class CreateRequestActivity extends AppCompatActivity {
     }
 
     private void handleCountryDetection(String input, boolean isDeleting) {
+        if (isEditing) return;
         if (isDeleting) {
             if (selectedCountry != null && !selectedCountry.isDefault() && !input.startsWith(selectedCountry.getCode())) {
                 resetCountryState();
@@ -380,6 +382,7 @@ public class CreateRequestActivity extends AppCompatActivity {
     }
 
     private String formatPhoneNumber(String input, boolean isDeleting) {
+        if (isEditing) return input; // 🔒 Не форматируем при редактировании
         if (isDeleting) return input;
         String cleanInput = input.replace(" ", "");
         if (selectedCountry != null && selectedCountry.isDefault()) {
@@ -429,6 +432,7 @@ public class CreateRequestActivity extends AppCompatActivity {
     }
 
     private void resetToInitialState() {
+        if (isEditing) return;
         countryCodeSpinner.post(() -> countryCodeSpinner.setSelection(0));
         selectedCountry = countries.get(0);
         countryFlagImageView.setImageResource(R.drawable.question_mark_icon);
@@ -437,12 +441,14 @@ public class CreateRequestActivity extends AppCompatActivity {
     }
 
     private void resetCountryState() {
+        if (isEditing) return;
         selectedCountry = countries.get(0);
         countryFlagImageView.setImageResource(R.drawable.question_mark_icon);
         updatePhoneHint();
     }
 
     private void selectCountry(Country country) {
+        if (isEditing) return;
         selectedCountry = country;
         countryCodeSpinner.post(() -> {
             int pos = countries.indexOf(country);
@@ -453,6 +459,7 @@ public class CreateRequestActivity extends AppCompatActivity {
     }
 
     private void safeSetPhoneText(String text) {
+        if (isEditing) return;
         editTextPhone.removeTextChangedListener(phoneTextWatcher);
         editTextPhone.setText(text);
         int pos = Math.min(text.length(), editTextPhone.getText().length());
@@ -461,6 +468,7 @@ public class CreateRequestActivity extends AppCompatActivity {
     }
 
     private void updatePhoneHint() {
+        if (isEditing) return;
         String hint;
         if (selectedCountry != null && selectedCountry.isDefault()) {
             hint = getString(R.string.phone_hint);
@@ -488,7 +496,6 @@ public class CreateRequestActivity extends AppCompatActivity {
         editTextPhone.setHint(hint);
     }
 
-    // Форматы
     private String formatRUInternal(String digits) {
         StringBuilder sb = new StringBuilder();
         if (digits.length() >= 1) {
@@ -645,7 +652,6 @@ public class CreateRequestActivity extends AppCompatActivity {
         return (val != null) ? val : 15;
     }
 
-    // ✅ КЛЮЧЕВОЙ МЕТОД — ПРАВИЛЬНАЯ ВАЛИДАЦИЯ
     private boolean isValidPhoneNumber(String phone, Country country) {
         if (phone.isEmpty() || country == null || country.isDefault()) {
             return false;
@@ -658,12 +664,10 @@ public class CreateRequestActivity extends AppCompatActivity {
         if (clean.startsWith(countryCode)) {
             localDigits = clean.substring(countryCode.length()).replaceAll("[^\\d]", "");
         } else {
-            // Попытка обработать номер без явного кода
             localDigits = clean.replaceAll("[^\\d]", "");
             if ("+7".equals(countryCode) && localDigits.startsWith("7") && localDigits.length() == 11) {
                 localDigits = localDigits.substring(1);
             }
-            // Для других стран не угадываем
         }
 
         int min = getMinDigitsForCountry(country);
@@ -701,6 +705,18 @@ public class CreateRequestActivity extends AppCompatActivity {
         ).show();
     }
 
+    private boolean isTimeInFuture(String dateStr, String timeStr) {
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy HH:mm", Locale.getDefault());
+            String dateTimeStr = dateStr + " " + timeStr;
+            long selectedDateTime = sdf.parse(dateTimeStr).getTime();
+            long now = System.currentTimeMillis();
+            return selectedDateTime >= now;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
     private void createRequest() {
         String name = editTextClientName.getText().toString().trim();
         String phone = editTextPhone.getText().toString().trim();
@@ -730,7 +746,11 @@ public class CreateRequestActivity extends AppCompatActivity {
             return;
         }
 
-        // 🔥 КРИТИЧЕСКИ ВАЖНО: убедиться, что страна определена
+        if (!isTimeInFuture(date, time)) {
+            Toast.makeText(this, R.string.error_time_in_past, Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         Country validationCountry = selectedCountry;
         if (validationCountry == null || validationCountry.isDefault()) {
             validationCountry = detectCountryFromPhone(phone);
@@ -806,45 +826,14 @@ public class CreateRequestActivity extends AppCompatActivity {
             editTextDate.setEnabled(false);
             editTextTime.setEnabled(false);
 
+            // 🔒 КЛЮЧЕВОЕ: отключаем и устанавливаем как есть
             String phone = req.getPhone();
-            Country matched = null;
-            for (Country c : countries) {
-                if (!c.isDefault() && phone.startsWith(c.getCode())) {
-                    matched = c;
-                    break;
-                }
-            }
+            editTextPhone.setEnabled(false);
+            editTextPhone.setText(phone); // без форматирования!
 
-            if (matched == null && phone.startsWith("+7")) {
-                String digits = phone.substring(2).replaceAll("[^\\d]", "");
-                if (digits.length() >= 3) {
-                    String f3 = digits.substring(0, 3);
-                    if (f3.startsWith("6") || f3.startsWith("7") || f3.startsWith("8")) {
-                        for (Country c : countries) {
-                            if ("+7".equals(c.getCode()) && "Казахстан".equals(c.getName())) {
-                                matched = c;
-                                break;
-                            }
-                        }
-                    }
-                }
-                if (matched == null) {
-                    for (Country c : countries) {
-                        if ("+7".equals(c.getCode()) && "Россия".equals(c.getName())) {
-                            matched = c;
-                            break;
-                        }
-                    }
-                }
-            }
+            // Сбрасываем страну — она не используется при редактировании
+            selectedCountry = null;
 
-            if (matched != null) {
-                selectCountry(matched);
-                safeSetPhoneText(phone);
-            } else {
-                resetToInitialState();
-                safeSetPhoneText(phone);
-            }
         } else {
             Toast.makeText(this, R.string.request_not_found, Toast.LENGTH_SHORT).show();
             finish();
@@ -855,7 +844,7 @@ public class CreateRequestActivity extends AppCompatActivity {
         if (currentRequestId == null) return;
 
         String name = editTextClientName.getText().toString().trim();
-        String phone = editTextPhone.getText().toString().trim();
+        String phone = editTextPhone.getText().toString().trim(); // как есть
         String model = editTextModel.getText().toString().trim();
         String problem = editTextProblem.getText().toString().trim();
 
@@ -872,16 +861,7 @@ public class CreateRequestActivity extends AppCompatActivity {
             return;
         }
 
-        Country validationCountry = selectedCountry;
-        if (validationCountry == null || validationCountry.isDefault()) {
-            validationCountry = detectCountryFromPhone(phone);
-        }
-
-        if (!isValidPhoneNumber(phone, validationCountry)) {
-            Toast.makeText(this, R.string.error_phone_invalid, Toast.LENGTH_SHORT).show();
-            return;
-        }
-
+        // 🔒 НЕ проверяем телефон — он уже валиден
         int rows = requestDao.updateRequestData(currentRequestId, name, phone, model, problem);
         if (rows > 0) {
             Toast.makeText(this, R.string.request_updated, Toast.LENGTH_SHORT).show();
